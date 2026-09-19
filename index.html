@@ -1,85 +1,537 @@
 <!DOCTYPE html>
-<!-- saved from url=(0080)file:///Users/makcakir/Desktop/Site%20not%20found%20%C2%B7%20GitHub%20Pages.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; style-src &#39;unsafe-inline&#39;; img-src data:; connect-src &#39;self&#39;">
-    <title>Mustafa Ali Akçakır</title>
-    <style type="text/css" media="screen">
-      body {
-        background-color: #f1f1f1;
-        margin: 0;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mustafa Ali Akçakır</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f8;
+      --card-bg: #ffffff;
+      --text-color: #1a1d20;
+      --subtext-color: #6c757d;
+      --accent-color: #0d6efd;
+      --accent-glow: rgba(13, 110, 253, 0.2);
+      --social-bg: #f1f3f5;
+      --social-hover: #e9ecef;
+      --border-color: rgba(0, 0, 0, 0.06);
+      --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+      --card-border: 1px solid rgba(0, 0, 0, 0.05);
+      --transition-speed: 0.3s;
+    }
+
+    /* Automatic Dark Mode Support */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #0f1115;
+        --card-bg: #181b20;
+        --text-color: #f8f9fa;
+        --subtext-color: #9fa6ad;
+        --accent-color: #3d8bfd;
+        --accent-glow: rgba(61, 139, 253, 0.3);
+        --social-bg: #242830;
+        --social-hover: #2f3440;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.5), 0 4px 15px -2px rgba(0, 0, 0, 0.3);
+        --card-border: 1px solid rgba(255, 255, 255, 0.08);
       }
+    }
 
-      .container { margin: 50px auto 40px auto; width: 600px; text-align: center; }
+    /* Manual Theme Overrides via Data Attribute */
+    [data-theme="dark"] {
+      --bg-color: #0f1115;
+      --card-bg: #181b20;
+      --text-color: #f8f9fa;
+      --subtext-color: #9fa6ad;
+      --accent-color: #3d8bfd;
+      --accent-glow: rgba(61, 139, 253, 0.3);
+      --social-bg: #242830;
+      --social-hover: #2f3440;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.5), 0 4px 15px -2px rgba(0, 0, 0, 0.3);
+      --card-border: 1px solid rgba(255, 255, 255, 0.08);
+    }
 
-      a { color: #4183c4; text-decoration: none; }
-      a:hover { text-decoration: underline; }
+    [data-theme="light"] {
+      --bg-color: #f4f6f8;
+      --card-bg: #ffffff;
+      --text-color: #1a1d20;
+      --subtext-color: #6c757d;
+      --accent-color: #0d6efd;
+      --accent-glow: rgba(13, 110, 253, 0.2);
+      --social-bg: #f1f3f5;
+      --social-hover: #e9ecef;
+      --border-color: rgba(0, 0, 0, 0.06);
+      --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+      --card-border: 1px solid rgba(0, 0, 0, 0.05);
+    }
 
-      h1 { width: 800px; position:relative; left: -100px; letter-spacing: -1px; line-height: 60px; font-size: 60px; font-weight: 100; margin: 0px 0 50px 0; text-shadow: 0 1px 0 #fff; }
-      p { color: rgba(0, 0, 0, 0.5); margin: 20px 0; line-height: 1.6; }
+    * {
+      box-sizing: border-box;
+    }
 
-      ul { list-style: none; margin: 25px 0; padding: 0; }
-      li { display: table-cell; font-weight: bold; width: 1%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+      position: relative;
+    }
 
-      .logo { display: inline-block; margin-top: 35px; }
-      .logo-img-2x { display: none; }
-      @media
-      only screen and (-webkit-min-device-pixel-ratio: 2),
-      only screen and (   min--moz-device-pixel-ratio: 2),
-      only screen and (     -o-min-device-pixel-ratio: 2/1),
-      only screen and (        min-device-pixel-ratio: 2),
-      only screen and (                min-resolution: 192dpi),
-      only screen and (                min-resolution: 2dppx) {
-        .logo-img-1x { display: none; }
-        .logo-img-2x { display: inline-block; }
+    /* Top Control Bar for Theme & Language Switcher */
+    .controls-bar {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    /* Animated Sliding Language Switcher */
+    .lang-switcher {
+      position: relative;
+      background: var(--card-bg);
+      border: var(--card-border);
+      border-radius: 22px;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      box-shadow: var(--shadow);
+      transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    }
+
+    /* Sliding pill indicator background */
+    .lang-switcher::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      bottom: 3px;
+      left: 3px;
+      width: calc(50% - 3px);
+      background-color: var(--accent-color);
+      border-radius: 18px;
+      box-shadow: 0 2px 8px var(--accent-glow);
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color var(--transition-speed) ease;
+      pointer-events: none;
+    }
+
+    .lang-switcher:has(#btnEn.active)::before {
+      transform: translateX(0%);
+    }
+
+    .lang-switcher:has(#btnTr.active)::before {
+      transform: translateX(100%);
+    }
+
+    .lang-btn {
+      position: relative;
+      z-index: 1;
+      background: transparent;
+      border: none;
+      color: var(--subtext-color);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: color 0.25s ease;
+      line-height: 1;
+    }
+
+    .lang-btn:hover {
+      color: var(--text-color);
+    }
+
+    .lang-btn.active {
+      color: #ffffff;
+    }
+
+    .lang-btn:focus-visible {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      background: var(--card-bg);
+      border: var(--card-border);
+      color: var(--text-color);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.08);
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 3px;
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Main Profile Container & Card */
+    .container {
+      background: var(--card-bg);
+      padding: 3rem 2.5rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      border: var(--card-border);
+      text-align: center;
+      max-width: 440px;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
       }
-
-      #suggestions {
-        margin-top: 35px;
-        color: #ccc;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
-      #suggestions a {
-        color: #666666;
-        font-weight: 200;
-        font-size: 14px;
-        margin: 0 10px;
-      }
+    }
 
-    </style>
-  </head>
-  <body>
+    .avatar-wrapper {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 1.5rem auto;
+    }
 
-    <div class="container">
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--accent-color);
+      padding: 3px;
+      box-shadow: 0 8px 20px var(--accent-glow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-      <h1>Hello world</h1>
-      <p>This is <strong>Mustafa Ali Akçakır</strong> 👋🏼</p>
-      <p>You can find more information about me by using below links.</p>
+    .avatar-wrapper:hover .avatar-img {
+      transform: scale(1.05);
+      box-shadow: 0 12px 25px var(--accent-glow);
+    }
 
-      <a href="https://www.linkedin.com/in/makcakir" target="_blank" rel="noopener noreferrer" class="logo logo-img-1x">
-        <img width="32" height="32" title="" alt="" src="data:image/png;base64,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">
+    .avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--accent-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 2.2rem;
+      font-weight: 700;
+      user-select: none;
+    }
+
+    /* Reserved Dimensions to Prevent Layout Bouncing */
+    h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      transition: opacity 0.2s ease;
+      min-height: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .intro {
+      font-size: 1.1rem;
+      margin-top: 0;
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+      transition: opacity 0.2s ease;
+      min-height: 1.54rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: pre-wrap;
+    }
+
+    .intro strong {
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .subtext {
+      color: var(--subtext-color);
+      font-size: 0.95rem;
+      margin-top: 0;
+      margin-bottom: 2.2rem;
+      line-height: 1.5;
+      transition: opacity 0.2s ease;
+      min-height: 2.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background-color: var(--social-bg);
+      color: var(--text-color);
+      text-decoration: none;
+      position: relative;
+      border: 1px solid var(--border-color);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow 0.25s ease;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-4px) scale(1.05);
+      background-color: var(--social-hover);
+      color: var(--accent-color);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .social-links a:focus-visible {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 4px;
+    }
+
+    .social-links svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+      transition: transform 0.2s ease;
+    }
+
+    .social-links a:hover svg {
+      transform: scale(1.1);
+    }
+
+    /* Tooltip Styling */
+    .social-links a::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: var(--text-color);
+      color: var(--card-bg);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .social-links a:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Control Bar (Language & Theme) -->
+  <div class="controls-bar">
+    <div class="lang-switcher" role="group" id="langGroup" aria-label="Language selection">
+      <button type="button" class="lang-btn" id="btnEn" onclick="setLanguage('en')" aria-label="Switch to English">EN</button>
+      <button type="button" class="lang-btn" id="btnTr" onclick="setLanguage('tr')" aria-label="Türkçe'ye geç">TR</button>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Light and Dark Mode" title="Toggle Light/Dark Theme">
+      <svg id="themeIcon" viewBox="0 0 24 24">
+        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z"/>
+      </svg>
+    </button>
+  </div>
+
+  <main class="container">
+    <div class="avatar-wrapper">
+      <img 
+        src="https://github.com/makcakir.png" 
+        alt="Mustafa Ali Akçakır Profile Photo" 
+        class="avatar-img"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="avatar-placeholder" style="display: none;" aria-hidden="true">
+        MA
+      </div>
+    </div>
+
+    <h1 id="headingText">Hello world 👋🏼</h1>
+    <p class="intro" id="introText">This is&nbsp;<strong>Mustafa Ali Akçakır</strong></p>
+    <p class="subtext" id="subtextText">You can find more information about me using the links below.</p>
+
+    <div class="social-links">
+      <a id="linkLinkedIn" href="https://www.linkedin.com/in/makcakir" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" title="LinkedIn" data-tooltip="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-.2063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
       </a>
 
-      <a href="https://www.linkedin.com/in/makcakir" target="_blank" rel="noopener noreferrer" class="logo logo-img-2x">
-        <img width="32" height="32" title="" alt="" src="data:image/png;base64,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">
+      <a id="linkGitHub" href="https://github.com/makcakir" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" title="GitHub" data-tooltip="GitHub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
       </a>
 
-      <a href="https://github.com/makcakir" target="_blank" rel="noopener noreferrer" class="logo logo-img-1x">
-        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFNTE3OEEyQTk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFNTE3OEEyQjk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkU1MTc4QTI4OTlBMDExRTI5QTE1QkMxMDQ2QTg5MDREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkU1MTc4QTI5OTlBMDExRTI5QTE1QkMxMDQ2QTg5MDREIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+m4QGuQAAAyRJREFUeNrEl21ojWEYx895TDPbMNlBK46IUiNmPvHBSUjaqc0H8pF5+aDUKPEBqU2NhRQpX5Rv5jWlDIWlMCv7MMSWsWwmb3tpXub4XXWdPHvc9/Gc41nu+nedc7/8r/99PffLdYdDPsvkwsgkTBwsA/PADJCnzX2gHTwBt8Hl7p537/3whn04XoDZDcpBlk+9P8AFcAghzRkJwPF4zGGw0Y9QS0mAM2AnQj77FqCzrtcwB1Hk81SYojHK4DyGuQ6mhIIrBWB9Xm7ug/6B/nZrBHBegrkFxoVGpnwBMSLR9EcEcC4qb8pP14BWcBcUgewMnF3T34VqhWMFkThLJAalwnENOAKiHpJq1FZgI2AT6HZtuxZwR9GidSHtI30jOrbawxlVX78/AbNfhHlomEUJJI89O2MqeE79T8/nk8nMBm/dK576hZgmA3cp/R4l9/UeSxiHLVIlNm4nFfT0bxyuIj7LHRTKai+zdJobwMKzcZSJb0ePV5PKN+BqAAKE47UlMnERELMM3EdYP/yrd+XYb2mOiYBiQ8OQnoRBlXrl9JZix7D1pHTazu4MoyBcnYamqAjIMTR8G4FT8LuhLsexXYYjICBiqhQBvYb6fLZIJCjPypVvaOoVAW2WcasCnL2Nq82xHJNSqlCeFcDshaPK0twkAhosjZL31QYw+1rlMpWGMArl23SBsZZO58F2tlJXmjOXS+s4WGvpMiBJT/I2PInZ6lIs9/hBsNS1hS6BG0DSqmYEDRlCXQrmy50P1oDRKTSegmNbUsA0zDMwRhPJXeCE3vWLPQMvan6X8AgIa1vcR4AkGZkDR4ejJ1UHpsaVI0g2LInpOsNFUud1rhxSV+fzC9Woz2EZkWQuja7/B+jUrgtIMpy9YCW4n4K41YfzRneW5E1KJTe4B2Zq1Q5EHEtj4U3AfEzR5SVY4l7QYQPJdN2as7RKBF0BPZqqH4VgMAMBL8Byxr7y8zCZiDlnOcEKIPmUpgB5Z2ww5RdOiiRiNajUmWda5IG6WbhsyY2fx6m8gLcoJDJFkH219M3We1+cnda93pfycZpIJEL/s/wSYADmOAwAQgdpBAAAAABJRU5ErkJggg==">
-      </a>
-
-      <a href="https://github.com/makcakir" target="_blank" rel="noopener noreferrer" class="logo logo-img-2x">
-        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFNTE3OEEyRTk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFNTE3OEEyRjk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkU1MTc4QTJDOTlBMDExRTI5QTE1QkMxMDQ2QTg5MDREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkU1MTc4QTJEOTlBMDExRTI5QTE1QkMxMDQ2QTg5MDREIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+FYrpWAAABrNJREFUeNrkW2ls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">
-      </a>
-
-      <a href="https://twitter.com/makcakir" target="_blank" rel="noopener noreferrer" class="logo logo-img-1x">
-        <img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABGhJREFUWEfFV0tsVFUY/s59zJ3pzPSB1baGqUJVjKnSLtC2LjBBYqJAZIFGTYwuWGgwRhITDQtZsDOpC3eCuNGNqVEiRBGJIdoWEhQDFSIKhkeAap8wj/s49xzzn9s7qdM7dwZC7U2aJvee+f/v+/7v/885DADM+/p773jp/UFzeXcfIC2AMXp/+x8pwTTHu3Tq6ORnb2/3/hw9wcz71/S0vbX/kJZZ1irt/OLlDtkQhmQGIj81Mf7BhvWs470fh82uvgFZnOXQDeP2s46I6HPOGpoN79zoCMvtmeUQQgNbLNmrUJIkBRMst3taAotU8jrkZLndM7KOdTWXEIVQQ3ETEWMBUEBZRzCdAVwAjgi0TOoBGPqtxgA/JkYsAE8Alg7EMaIEM47EsiRDZ1aD6wPnZwW4lLB0hrwr0WgxaACicFQFQEza0hr+mvWRMVkkC2JZcCVe7bbw+iOWAsAlcOJvjl3HbPw+7ePlhywMX+E4Ps5VnEoyCwBQYmLemmL4dnMG7w6X8PlZD+0NgVFDOUn2aUdi22oLux5PLfCI7QM3XImT/3C885ONiZKIJlFpQpI070msaTPwzeaMArNjuIQ9Y46qJ7Gg5K4Ami2GkeezSJtMyUvv6T+xDNecmvAxdNbF3t9cpIyF5VygACUpceCBFg1HtmSVmYj79xc9DP7i4Pg1rkAVuMQzK0x8uTGjEtLv5j/0jsDsHXOwY8QOjBnhg0gPEHoy1tDGDNblDJXQJBcBOHqV44dLHKNXObqadQyuTalM88cYJaZkk7ZE76fXlS8SDBARzRzpAapzk8Uw0GFgZ38Sd6c1VT9jDkQYJ4o5faP2I0BX8gJPDOVR9GS5PJUYIktQ8CR67zKwb1MaNgdakkGNiRUlDRNXyl4J7OdxH09/lUfSqD5PIktAgQnEgWczeLTdUEOmkn3caKT1ugZ8POZg+5GS6ih6F/VUBUBG7GrS8MlTaaxq0coK1JzJcyoRiecOFHD4oofGRPQcoVhVBxEZ8bor8WSniTd7LfR1GOWOiANB5aH6n570sf6LvDJv3DSvCeCNHgs7+1NKQmJVre4hqLBcrxwsYN85T82KW94LKCjNdmq1Fx9M1FQ/bNehP1xsPVSsmTy2BPSRykDoaSaQGbf1WNi00lTd8J++l8E6Muqxaxxb9hfK07DWZhpZAjXUaCS7Urn5nqyGdZ0mtnZbWNEUDAPVknOaEFB6Dl7w8NrhomrdRI1dNJQzchDR5Fq73MALqxJ4uFXHvY0VE6iiGONFiQ9/tfHRSQemzpTx6j2UVDUhSbe6VceGlSYeazeQy2qqpiSz4wNTtsCZKYHvLnj4+ryHyzcEmpOBFPUcYqoqMJ8cjVDaVmkHvLOBocUK2BV5MOenSkLtE/TdMoJT0c0+sSeisO18EZwRyGh0mNVYoAT9kRmFiO/1OFB1H0qjnF/L4fWoUTeAeoLdyhoCwCHl0l1MgqtZ/4AszizN1WzJL6dUt//1eg7meJfHytfzfwFa3RqNfhtKuQAAAABJRU5ErkJggg==">
-      </a>
-
-      <a href="https://twitter.com/makcakir" target="_blank" rel="noopener noreferrer" class="logo logo-img-2x">
-        <img width="32" height="32" title="" alt="" src="data:image/png;base64,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">
+      <a id="linkTwitter" href="https://twitter.com/makcakir" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter) Profile" title="X (Twitter)" data-tooltip="X / Twitter">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </a>
     </div>
-  
+  </main>
 
-</body></html>
+  <script>
+    const translations = {
+      en: {
+        heading: "Hello world 👋🏼",
+        intro: "This is&nbsp;<strong>Mustafa Ali Akçakır</strong>",
+        subtext: "You can find more information about me using the links below.",
+        linkedInAria: "LinkedIn Profile",
+        githubAria: "GitHub Profile",
+        twitterAria: "X (Twitter) Profile",
+        themeToggleTitle: "Toggle Light/Dark Theme",
+        themeToggleAria: "Toggle Light and Dark Mode",
+        langGroupAria: "Language selection",
+        btnEnAria: "Switch to English",
+        btnTrAria: "Türkçe'ye geç"
+      },
+      tr: {
+        heading: "Merhaba dünya 👋🏼",
+        intro: "Ben&nbsp;<strong>Mustafa Ali Akçakır</strong>",
+        subtext: "Benim hakkımda daha fazla bilgiye aşağıdaki bağlantılardan ulaşabilirsiniz.",
+        linkedInAria: "LinkedIn Profilim",
+        githubAria: "GitHub Profilim",
+        twitterAria: "X (Twitter) Profilim",
+        themeToggleTitle: "Karanlık/Aydınlık Temayı Değiştir",
+        themeToggleAria: "Karanlık ve Aydınlık Modu Aç/Kapat",
+        langGroupAria: "Dil seçimi",
+        btnEnAria: "İngilizceye geç",
+        btnTrAria: "Türkçe dilinde kal"
+      }
+    };
+
+    let currentLang = null;
+
+    function setLanguage(lang, animate = true) {
+      if (!translations[lang]) return;
+      
+      // Zaten seçili olan dile tekrar tıklandıysa hiçbir şey yapma
+      if (currentLang === lang && animate) return;
+
+      currentLang = lang;
+      localStorage.setItem('user_lang', lang);
+
+      document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+      document.getElementById('btnTr').classList.toggle('active', lang === 'tr');
+      document.documentElement.setAttribute('lang', lang);
+
+      const headingEl = document.getElementById('headingText');
+      const introEl = document.getElementById('introText');
+      const subtextEl = document.getElementById('subtextText');
+
+      const applyTranslations = () => {
+        const t = translations[lang];
+        headingEl.textContent = t.heading;
+        introEl.innerHTML = t.intro;
+        subtextEl.textContent = t.subtext;
+
+        document.getElementById('linkLinkedIn').setAttribute('aria-label', t.linkedInAria);
+        document.getElementById('linkGitHub').setAttribute('aria-label', t.githubAria);
+        document.getElementById('linkTwitter').setAttribute('aria-label', t.twitterAria);
+
+        document.getElementById('themeToggle').setAttribute('aria-label', t.themeToggleAria);
+        document.getElementById('themeToggle').setAttribute('title', t.themeToggleTitle);
+        document.getElementById('langGroup').setAttribute('aria-label', t.langGroupAria);
+        document.getElementById('btnEn').setAttribute('aria-label', t.btnEnAria);
+        document.getElementById('btnTr').setAttribute('aria-label', t.btnTrAria);
+      };
+
+      if (animate) {
+        [headingEl, introEl, subtextEl].forEach(el => el.classList.add('fade-out'));
+        setTimeout(() => {
+          applyTranslations();
+          [headingEl, introEl, subtextEl].forEach(el => el.classList.remove('fade-out'));
+        }, 150);
+      } else {
+        applyTranslations();
+      }
+    }
+
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    
+    const moonPath = "M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z";
+    const sunPath = "M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37c-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41zM7.05 18.36l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.02-.39-1.41 0z";
+
+    function updateIcon(isDark) {
+      themeIcon.querySelector('path').setAttribute('d', isDark ? sunPath : moonPath);
+    }
+
+    function isDarkMode() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      if (currentTheme) {
+        return currentTheme === 'dark';
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    const initialLang = localStorage.getItem('user_lang') || (navigator.language.startsWith('tr') ? 'tr' : 'en');
+
+    updateIcon(isDarkMode());
+    setLanguage(initialLang, false);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentlyDark = isDarkMode();
+      const newTheme = currentlyDark ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      updateIcon(newTheme === 'dark');
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!document.documentElement.hasAttribute('data-theme')) {
+        updateIcon(e.matches);
+      }
+    });
+  </script>
+</body>
+</html>
