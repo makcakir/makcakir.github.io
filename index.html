@@ -70,6 +70,13 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Yatay kaydırmayı engeller */
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: var(--bg-color);
@@ -77,8 +84,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      /* Mobil ekran yükseklik çakışmalarını (100vh) çözer */
       min-height: 100vh;
-      margin: 0;
+      min-height: 100dvh;
       padding: 24px;
       transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
       position: relative;
@@ -201,7 +209,6 @@
       max-width: 440px;
       width: 100%;
       position: relative;
-      overflow: hidden;
       transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
       animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -350,9 +357,10 @@
     .social-links a::after {
       content: attr(data-tooltip);
       position: absolute;
-      bottom: -36px;
+      top: -38px;
+      bottom: auto;
       left: 50%;
-      transform: translateX(-50%) translateY(4px);
+      transform: translateX(-50%) translateY(-4px);
       background: var(--text-color);
       color: var(--card-bg);
       padding: 4px 10px;
@@ -369,6 +377,14 @@
     .social-links a:hover::after {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
+    }
+
+    /* Ekran yüksekliği çok küçük olan mobil cihazlar için hafif uyumluluk */
+    @media (max-height: 550px) {
+      body {
+        align-items: flex-start;
+        padding-top: 80px;
+      }
     }
   </style>
 </head>
@@ -394,9 +410,9 @@
         src="https://github.com/makcakir.png" 
         alt="Mustafa Ali Akçakır Profile Photo" 
         class="avatar-img"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';"
       />
-      <div class="avatar-placeholder" style="display: none;" aria-hidden="true">
+      <div id="avatarFallback" class="avatar-placeholder" style="display: none;" aria-hidden="true">
         MA
       </div>
     </div>
@@ -438,7 +454,7 @@
       tr: {
         heading: "Merhaba dünya 👋🏼",
         intro: "Ben&nbsp;<strong>Mustafa Ali Akçakır</strong>",
-        subtext: "Benim hakkımda daha fazla bilgiye aşağıdaki bağlantılardan ulaşabilirsiniz.",
+        subtext: "Hakkımda daha fazla bilgiye aşağıdaki bağlantılardan ulaşabilirsiniz.",
         linkedInAria: "LinkedIn Profilim",
         githubAria: "GitHub Profilim",
         twitterAria: "X (Twitter) Profilim",
@@ -453,10 +469,7 @@
     let currentLang = null;
 
     function setLanguage(lang, animate = true) {
-      if (!translations[lang]) return;
-      
-      // Zaten seçili olan dile tekrar tıklandıysa hiçbir şey yapma
-      if (currentLang === lang && animate) return;
+      if (!translations[lang] || (currentLang === lang && animate)) return;
 
       currentLang = lang;
       localStorage.setItem('user_lang', lang);
