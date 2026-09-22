@@ -113,6 +113,8 @@
       display: flex;
       align-items: center;
       box-shadow: var(--shadow);
+      cursor: pointer;
+      user-select: none;
       transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
     }
 
@@ -131,11 +133,11 @@
       pointer-events: none;
     }
 
-    .lang-switcher:has(#btnEn.active)::before {
+    .lang-switcher[data-active-lang="en"]::before {
       transform: translateX(0%);
     }
 
-    .lang-switcher:has(#btnTr.active)::before {
+    .lang-switcher[data-active-lang="tr"]::before {
       transform: translateX(100%);
     }
 
@@ -152,17 +154,18 @@
       cursor: pointer;
       transition: color 0.25s ease;
       line-height: 1;
+      pointer-events: none; /* Passes click event through to the container */
     }
 
-    .lang-btn:hover {
+    .lang-switcher:hover .lang-btn {
       color: var(--text-color);
     }
 
     .lang-btn.active {
-      color: #ffffff;
+      color: #ffffff !important;
     }
 
-    .lang-btn:focus-visible {
+    .lang-switcher:focus-visible {
       outline: 2px solid var(--accent-color);
       outline-offset: 2px;
     }
@@ -374,7 +377,8 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
 
-    .social-links a:hover::after {
+    .social-links a:hover::after,
+    .social-links a:focus-visible::after {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
@@ -392,9 +396,9 @@
 
   <!-- Top Control Bar (Language & Theme) -->
   <div class="controls-bar">
-    <div class="lang-switcher" role="group" id="langGroup" aria-label="Language selection">
-      <button type="button" class="lang-btn" id="btnEn" onclick="setLanguage('en')" aria-label="Switch to English">EN</button>
-      <button type="button" class="lang-btn" id="btnTr" onclick="setLanguage('tr')" aria-label="Türkçe'ye geç">TR</button>
+    <div class="lang-switcher" id="langGroup" role="button" tabindex="0" aria-label="Toggle language">
+      <button type="button" class="lang-btn" id="btnEn" tabindex="-1">EN</button>
+      <button type="button" class="lang-btn" id="btnTr" tabindex="-1">TR</button>
     </div>
 
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle Light and Dark Mode" title="Toggle Light/Dark Theme">
@@ -419,7 +423,7 @@
 
     <h1 id="headingText">Hello world 👋🏼</h1>
     <p class="intro" id="introText">This is&nbsp;<strong>Mustafa Ali Akçakır</strong></p>
-    <p class="subtext" id="subtextText">You can find more information about me using the links below.</p>
+    <p class="subtext" id="subtextText">You can find more information<br>about me using the links below.</p>
 
     <div class="social-links">
       <a id="linkLinkedIn" href="https://www.linkedin.com/in/makcakir" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" title="LinkedIn" data-tooltip="LinkedIn">
@@ -441,28 +445,24 @@
       en: {
         heading: "Hello world 👋🏼",
         intro: "This is&nbsp;<strong>Mustafa Ali Akçakır</strong>",
-        subtext: "You can find more information about me using the links below.",
+        subtext: "You can find more information<br>about me using the links below.",
         linkedInAria: "LinkedIn Profile",
         githubAria: "GitHub Profile",
         twitterAria: "X (Twitter) Profile",
         themeToggleTitle: "Toggle Light/Dark Theme",
         themeToggleAria: "Toggle Light and Dark Mode",
-        langGroupAria: "Language selection",
-        btnEnAria: "Switch to English",
-        btnTrAria: "Türkçe'ye geç"
+        langSwitcherAria: "Switch language, currently English"
       },
       tr: {
         heading: "Merhaba dünya 👋🏼",
         intro: "Ben&nbsp;<strong>Mustafa Ali Akçakır</strong>",
-        subtext: "Hakkımda daha fazla bilgiye aşağıdaki bağlantılardan ulaşabilirsiniz.",
+        subtext: "Hakkımda daha fazla bilgiye<br>aşağıdaki bağlantılardan ulaşabilirsiniz.",
         linkedInAria: "LinkedIn Profilim",
         githubAria: "GitHub Profilim",
         twitterAria: "X (Twitter) Profilim",
         themeToggleTitle: "Karanlık/Aydınlık Temayı Değiştir",
         themeToggleAria: "Karanlık ve Aydınlık Modu Aç/Kapat",
-        langGroupAria: "Dil seçimi",
-        btnEnAria: "İngilizceye geç",
-        btnTrAria: "Türkçe dilinde kal"
+        langSwitcherAria: "Dili değiştir, şu an Türkçe"
       }
     };
 
@@ -473,6 +473,9 @@
 
       currentLang = lang;
       localStorage.setItem('user_lang', lang);
+
+      const langGroup = document.getElementById('langGroup');
+      langGroup.setAttribute('data-active-lang', lang);
 
       document.getElementById('btnEn').classList.toggle('active', lang === 'en');
       document.getElementById('btnTr').classList.toggle('active', lang === 'tr');
@@ -486,7 +489,7 @@
         const t = translations[lang];
         headingEl.textContent = t.heading;
         introEl.innerHTML = t.intro;
-        subtextEl.textContent = t.subtext;
+        subtextEl.innerHTML = t.subtext;
 
         document.getElementById('linkLinkedIn').setAttribute('aria-label', t.linkedInAria);
         document.getElementById('linkGitHub').setAttribute('aria-label', t.githubAria);
@@ -494,9 +497,7 @@
 
         document.getElementById('themeToggle').setAttribute('aria-label', t.themeToggleAria);
         document.getElementById('themeToggle').setAttribute('title', t.themeToggleTitle);
-        document.getElementById('langGroup').setAttribute('aria-label', t.langGroupAria);
-        document.getElementById('btnEn').setAttribute('aria-label', t.btnEnAria);
-        document.getElementById('btnTr').setAttribute('aria-label', t.btnTrAria);
+        langGroup.setAttribute('aria-label', t.langSwitcherAria);
       };
 
       if (animate) {
@@ -510,6 +511,22 @@
       }
     }
 
+    function toggleLanguage() {
+      const nextLang = currentLang === 'en' ? 'tr' : 'en';
+      setLanguage(nextLang, true);
+    }
+
+    // Language Switcher Click & Keyboard Events
+    const langSwitcher = document.getElementById('langGroup');
+    langSwitcher.addEventListener('click', toggleLanguage);
+    langSwitcher.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleLanguage();
+      }
+    });
+
+    // Theme Toggle Functionality
     const themeToggleBtn = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     
